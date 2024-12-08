@@ -13,7 +13,7 @@ class Course extends Model
     protected $fillable = [
         'title',
         'description',
-        'released_at'
+        'released_at',
     ];
 
     public function scopeReleased(Builder $query): Builder

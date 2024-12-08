@@ -3,13 +3,14 @@
 use App\Models\Course;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+
 use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
-$carbon = new Carbon();
+$carbon = new Carbon;
 
-it('show courses overview', function () use ($carbon) {
+it('show courses overview', function () {
     // Arrange
     $firstCourse = Course::factory()->released()->create();
     $secondCourse = Course::factory()->released()->create();
@@ -23,11 +24,11 @@ it('show courses overview', function () use ($carbon) {
             $secondCourse->title,
             $secondCourse->description,
             $lastCourse->title,
-            $lastCourse->description
+            $lastCourse->description,
         ]);
 });
 
-it('shows only released courses', function () use ($carbon) {
+it('shows only released courses', function () {
     // Arrange
     $releasedCourse = Course::factory()->released()->create();
     $notReleasedCourse = Course::factory()->create();
@@ -39,7 +40,7 @@ it('shows only released courses', function () use ($carbon) {
 
 });
 
-it('show courses by release date', function () use ($carbon) {
+it('show courses by release date', function () {
     // Arrange
     $releasedCourse = Course::factory()->released(\Carbon\Carbon::yesterday())->create();
     $newestReleasedCourse = Course::factory()->released()->create();
@@ -48,7 +49,6 @@ it('show courses by release date', function () use ($carbon) {
     get(route('home'))
         ->assertSeeTextInOrder([
             $newestReleasedCourse->title,
-            $releasedCourse->title
+            $releasedCourse->title,
         ]);
 });
-
