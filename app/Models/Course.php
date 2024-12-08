@@ -16,6 +16,10 @@ class Course extends Model
         'released_at',
     ];
 
+    protected $casts = [
+        'learnings' => 'array'
+    ];
+
     public function scopeReleased(Builder $query): Builder
     {
         return $query->whereNotNull('released_at');
