@@ -1,5 +1,5 @@
 <h2>{{ $course->title }}</h2>
-<img src="{{ $course->image }}" alt="Image of the course {{ $course->title }}">
+<img src="{{ asset("images/{$course->image_name}") }}" alt="Image of the course {{ $course->title }}">
 <h3>{{ $course->tagline }}</h3>
 <p>{{ $course->description }}</p>
 <p>{{ count($course->videos) }} videos</p>

@@ -17,7 +17,7 @@ class CourseFactory extends Factory
             'description' => $this->faker->paragraph,
             'slug' => $this->faker->slug,
             'tagline' => $this->faker->sentence,
-            'image' => 'image.png',
+            'image_name' => 'image.png',
             'learnings' => ['Learn A', 'Learn B', 'Learn C'],
         ];
     }
@@ -25,7 +25,7 @@ class CourseFactory extends Factory
     public function released(?Carbon $date = null): self
     {
         return $this->state(
-            fn($attributes) => ['released_at' => $date ?? Carbon::now()]
+            fn ($attributes) => ['released_at' => $date ?? Carbon::now()]
         );
     }
 }

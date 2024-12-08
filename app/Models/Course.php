@@ -18,7 +18,7 @@ class Course extends Model
     ];
 
     protected $casts = [
-        'learnings' => 'array'
+        'learnings' => 'array',
     ];
 
     public function scopeReleased(Builder $query): Builder

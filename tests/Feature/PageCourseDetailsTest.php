@@ -3,21 +3,25 @@
 use App\Models\Course;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
+it('does not found unreleased course', function () {
+    // Arrange
+    $course = Course::factory()->create();
+
+    // Act & Assert
+    get(route('course-details', $course))
+        ->assertNotFound();
+});
+
 it('show course details', function () {
     // Arrange
-    $course = Course::factory()->create([
-        'tagline' => 'Course tagline',
-        'image' => 'image.png',
-        'learnings' => [
-            'Learn Laravel routes',
-            'Learn Laravel views',
-            'Learn Laravel commands',
-        ]
-    ]);
+    $course = Course::factory()
+        ->released()
+        ->create();
 
     // Act & Assert
     get(route('course-details', $course))
@@ -25,22 +29,21 @@ it('show course details', function () {
         ->assertSeeText([
             $course->title,
             $course->description,
-            'Course tagline',
-            'Learn Laravel routes',
-            'Learn Laravel views',
-            'Learn Laravel commands',
+            $course->tagline,
+            ...$course->learnings,
         ])
-        ->assertSee('image.png');
+        ->assertSee(asset("images/{$course->image_name}"));
 });
 
 it('shows course video count', function () {
     // Arrange
-    $course = Course::factory()->create();
-    Video::factory()->count(3)->create(['course_id' => $course->id]);
+    $course = Course::factory()
+        ->has(Video::factory()->count(3))
+        ->released()
+        ->create();
 
     // Act & Assert
     get(route('course-details', $course))
         ->assertOk()
         ->assertSeeText('3 videos');
 });
-
